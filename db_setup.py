@@ -34,14 +34,14 @@ else:
 samples = []
 for i, row in df[:100].iterrows():  # limit to 100 for now
     # sample_text = row["chosen"]
-    sample_text = f"CHOSEN: {row['chosen']}\nREJECTED: {row['rejected']}"
+    input_text = f"CHOSEN: {row['chosen']}\nREJECTED: {row['rejected']}"
     label = "Correct" if random.random() > 0.2 else "Incorrect"
     annotator_id = f"A{random.randint(1, 3)}"
-    created_at = datetime.now().isoformat()
+    submitted_at = datetime.now().isoformat()
     is_flagged = 1 if random.random() < 0.1 else 0
 
-    samples.append((project_id, sample_text, label,
-                   annotator_id, created_at, is_flagged))
+    samples.append((project_id, input_text, label,
+                   annotator_id, submitted_at, is_flagged))
 
 cursor.executemany("""
     INSERT INTO samples (project_id, input_text, label, annotator_id, submitted_at, is_flagged)
